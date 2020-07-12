@@ -26,9 +26,16 @@ const ulList = document.getElementById('navbar__list')
  *
  */
 // Build menu by iterating through the sections
-sections.map((section) => {
-  const ulListElement = `<li class='menu__link ${section.className}' data-link=${section.id}><a href="#${section.id}">${section.dataset.nav}</li>`
-  ulList.insertAdjacentHTML('beforeend', ulListElement)
+sections.forEach((section) => {
+  const ulListElement = document.createElement('LI')
+  ulListElement.setAttribute('class', `menu__link  `)
+  ulListElement.setAttribute('data-link', `${section.id}`)
+  const aElement = document.createElement('a')
+  aElement.href = `#${section.id}`
+  const textnode = document.createTextNode(`${section.dataset.nav}`)
+  aElement.appendChild(textnode)
+  ulListElement.appendChild(aElement)
+  ulList.appendChild(ulListElement)
 })
 
 // Scroll to section on link click by listenting to the click-event in the ulList
@@ -45,13 +52,13 @@ ulList.addEventListener('click', (e) => {
 // Options for the observer.
 const options = {
   root: null,
-  rootMargin: '40px',
+  rootMargin: '0px',
   threshold: 0.6, // form 0 t0 1
 }
 
 //  using the IntersectionObserver method to observe the sections
 const cb = (entries) => {
-  entries.map((entry) => {
+  entries.forEach((entry) => {
     const ulListElement = document.querySelector(
       `.menu__link[data-link='${entry.target.id}']`
     )
@@ -74,19 +81,11 @@ const cb = (entries) => {
         section.classList.remove('your-active-class')
       }
     }
-    // if (ulListElement.classList.contains('your-active-class')) {
-    //   ulListElement.classList.toggle('active')
-    //   ulListElement.firstElementChild.classList.toggle('active')
-    // }
-    // } else {
-    //   ulListElement.style.cssText = 'background:#fff ;color: #333; '
-    //   ulListElement.firstElementChild.style.cssText = ' color:  #333; '
-    // }
   })
 }
 
 // Setting an observer with options and a callback which checks if the navelement should be active
 const observer = new IntersectionObserver(cb, options)
-sections.map((section) => {
+sections.forEach((section) => {
   observer.observe(document.getElementById(section.id))
 })
