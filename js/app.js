@@ -17,22 +17,22 @@
  * Define Global Variables
  *
  */
-const navElements = document.querySelectorAll('section')
-const navList = document.getElementById('navbar__list')
+const sections = document.querySelectorAll('section')
+const ulList = document.getElementById('navbar__list')
 
 /**
  * End Global Variables
  * Start Helper Functions
  *
  */
-// Build menu by iterating through the navelements
-navElements.forEach((el) => {
-  const navlistElement = `<li class='menu__link ${el.className}' data-link=${el.id}><a href="#${el.id}">${el.dataset.nav}</li>`
-  navList.insertAdjacentHTML('beforeend', navlistElement)
+// Build menu by iterating through the sections
+sections.map((section) => {
+  const ulListElement = `<li class='menu__link ${section.className}' data-link=${section.id}><a href="#${section.id}">${section.dataset.nav}</li>`
+  ulList.insertAdjacentHTML('beforeend', ulListElement)
 })
 
-// Scroll to section on link click by listenting to the click-event in the navlist
-navList.addEventListener('click', (e) => {
+// Scroll to section on link click by listenting to the click-event in the ulList
+ulList.addEventListener('click', (e) => {
   e.preventDefault()
   const parent = e.target.hasAttribute('data-link')
     ? e.target
@@ -43,40 +43,37 @@ navList.addEventListener('click', (e) => {
 })
 
 // Set section and nav link as active using the IntersectionObserver pattern
-const callback = (entries) => {
-  entries.forEach((entry) => {
-    console.log(entry.target)
-
-    const navListElement = document.querySelector(
+const cb = (entries) => {
+  entries.map((entry) => {
+    const ulListElement = document.querySelector(
       `.menu__link[data-link='${entry.target.id}']`
     )
-    console.log(navListElement)
 
     const section = document.getElementById(entry.target.id)
 
     if (entry && entry.isIntersecting) {
-      navListElement.classList.add('your-active-class')
+      ulListElement.classList.add('your-active-class')
       section.classList.add('your-active-class')
-      navListElement.classList.toggle('active')
-      navListElement.firstElementChild.classList.toggle('active')
+      ulListElement.classList.toggle('active')
+      ulListElement.firstElementChild.classList.toggle('active')
     } else {
-      if (navListElement.classList.contains('your-active-class')) {
-        navListElement.classList.remove('your-active-class')
-        navListElement.classList.toggle('active')
-        navListElement.firstElementChild.classList.toggle('active')
+      if (ulListElement.classList.contains('your-active-class')) {
+        ulListElement.classList.remove('your-active-class')
+        ulListElement.classList.toggle('active')
+        ulListElement.firstElementChild.classList.toggle('active')
       }
 
       if (section.classList.contains('your-active-class')) {
         section.classList.remove('your-active-class')
       }
     }
-    // if (navListElement.classList.contains('your-active-class')) {
-    //   navListElement.classList.toggle('active')
-    //   navListElement.firstElementChild.classList.toggle('active')
+    // if (ulListElement.classList.contains('your-active-class')) {
+    //   ulListElement.classList.toggle('active')
+    //   ulListElement.firstElementChild.classList.toggle('active')
     // }
     // } else {
-    //   navListElement.style.cssText = 'background:#fff ;color: #333; '
-    //   navListElement.firstElementChild.style.cssText = ' color:  #333; '
+    //   ulListElement.style.cssText = 'background:#fff ;color: #333; '
+    //   ulListElement.firstElementChild.style.cssText = ' color:  #333; '
     // }
   })
 }
@@ -84,12 +81,12 @@ const callback = (entries) => {
 // Options for the observer. Most important is the threshold
 const options = {
   root: null,
-  rootMargin: '0px',
+  rootMargin: '40px',
   threshold: 0.6, // form 0 t0 1
 }
 
 // Setting an observer with options and a callback which checks if the navelement should be active
-const observer = new IntersectionObserver(callback, options)
-navElements.forEach((el) => {
-  observer.observe(document.getElementById(el.id))
+const observer = new IntersectionObserver(cb, options)
+sections.map((section) => {
+  observer.observe(document.getElementById(section.id))
 })
