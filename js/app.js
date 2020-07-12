@@ -42,7 +42,14 @@ ulList.addEventListener('click', (e) => {
   elementToScrollTo.scrollIntoView({ block: 'end', behavior: 'smooth' })
 })
 
-// Set section and nav link as active using the IntersectionObserver pattern
+// Options for the observer.
+const options = {
+  root: null,
+  rootMargin: '40px',
+  threshold: 0.6, // form 0 t0 1
+}
+
+//  using the IntersectionObserver method to observe the sections
 const cb = (entries) => {
   entries.map((entry) => {
     const ulListElement = document.querySelector(
@@ -76,13 +83,6 @@ const cb = (entries) => {
     //   ulListElement.firstElementChild.style.cssText = ' color:  #333; '
     // }
   })
-}
-
-// Options for the observer. Most important is the threshold
-const options = {
-  root: null,
-  rootMargin: '40px',
-  threshold: 0.6, // form 0 t0 1
 }
 
 // Setting an observer with options and a callback which checks if the navelement should be active
