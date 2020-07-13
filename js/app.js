@@ -33,7 +33,7 @@ const t0 = performance.now()
 // Build menu by iterating through the sections
 sections.forEach((section) => {
   const ulListElement = document.createElement('LI')
-  ulListElement.setAttribute('class', `menu__link  `)
+  ulListElement.setAttribute('class', `menu__link`)
   ulListElement.setAttribute('data-link', `${section.id}`)
   const aElement = document.createElement('a')
   aElement.href = `#${section.id}`
