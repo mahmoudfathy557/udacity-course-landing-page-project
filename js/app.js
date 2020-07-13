@@ -19,12 +19,17 @@
  */
 const sections = document.querySelectorAll('section')
 const ulList = document.getElementById('navbar__list')
+const body = document.body
 
 /**
  * End Global Variables
  * Start Helper Functions
  *
  */
+
+// test the performance of the adding the navbar
+const t0 = performance.now()
+
 // Build menu by iterating through the sections
 sections.forEach((section) => {
   const ulListElement = document.createElement('LI')
@@ -37,6 +42,9 @@ sections.forEach((section) => {
   ulListElement.appendChild(aElement)
   ulList.appendChild(ulListElement)
 })
+
+const t1 = performance.now()
+console.log(`Call to doSomething took ${t1 - t0} milliseconds.`)
 
 // Scroll to section on link click by listenting to the click-event in the ulList
 ulList.addEventListener('click', (e) => {
